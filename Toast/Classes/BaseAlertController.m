@@ -16,7 +16,7 @@
 
 - (instancetype)init {
     if ([super init]) {
-        self.style = PresentationStyleActionSheet;
+        self.style = PresentationStyleAlert;
     }
     return self;
 }
