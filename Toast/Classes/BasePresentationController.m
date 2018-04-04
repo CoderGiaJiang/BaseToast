@@ -35,9 +35,11 @@
     });
     [self.containerView addSubview:self.visualView];
     
-    // 添加点击消失手势
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(onTapBgView:)];
-    [self.visualView addGestureRecognizer:tap];
+    if (self.isTapDismiss) {
+        // 添加点击消失手势
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(onTapBgView:)];
+        [self.visualView addGestureRecognizer:tap];        
+    }
     
     // 淡入动画
     id <UIViewControllerTransitionCoordinator>transitionCoordinator = self.presentedViewController.transitionCoordinator;

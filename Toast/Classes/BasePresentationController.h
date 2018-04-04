@@ -13,6 +13,9 @@
  */
 @interface BasePresentationController : UIPresentationController
 
+// 是否点击空白区域隐藏
+@property (nonatomic, assign) BOOL isTapDismiss;
+
 /** 黑色背景透明度  */
 @property (nonatomic, assign) CGFloat visualBgAlpha;
 

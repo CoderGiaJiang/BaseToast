@@ -14,27 +14,24 @@
 
 @implementation BaseAlertController
 
-- (instancetype)init {
-    if ([super init]) {
-        self.style = PresentationStyleAlert;
-    }
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
 
-#pragma mark - 重写方法
-- (NSTimeInterval)transitionDuration {
+#pragma mark - AlertPresentationContentControllerProtocol
+- (PresentationStyle)alertPresentationContentControllerStyle {
+    return PresentationStyleAlert;
+}
+
+- (NSTimeInterval)alertPresentationContentControllerTransitionDuration {
     return 0.5;
 }
 
-- (CGFloat)visualBgAlpha {
+- (CGFloat)alertPresentationContentControllerVisualBgAlpha {
     return 0.6;
 }
 
-- (UIView *)contentAlertView {
+- (UIView *)alertPresentationContentControllerContentView {
     return [[[NSBundle mainBundle]loadNibNamed:@"CustomView" owner:self options:nil]lastObject];
 }
 

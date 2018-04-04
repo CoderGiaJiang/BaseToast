@@ -17,10 +17,10 @@
 		700FB6691F960BCA000BB6DA /* ToastUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 700FB6681F960BCA000BB6DA /* ToastUITests.m */; };
 		700FB6821F960CBA000BB6DA /* CustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 700FB67F1F960CBA000BB6DA /* CustomView.m */; };
 		700FB6831F960CF7000BB6DA /* BaseAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 700FB6781F960BFF000BB6DA /* BaseAlertController.m */; };
-		700FB6841F960CF7000BB6DA /* BasePresentationContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 700FB67A1F960BFF000BB6DA /* BasePresentationContentController.m */; };
-		700FB6851F960CF7000BB6DA /* BasePresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 700FB67C1F960BFF000BB6DA /* BasePresentationController.m */; };
 		700FB6861F960CF7000BB6DA /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 700FB67E1F960BFF000BB6DA /* BaseViewController.m */; };
 		700FB6871F960D51000BB6DA /* CustomView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 700FB6811F960CBA000BB6DA /* CustomView.xib */; };
+		9F0CA79E20747B400062528D /* BasePresentationContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CA79A20747B3F0062528D /* BasePresentationContentController.m */; };
+		9F0CA79F20747B400062528D /* BasePresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0CA79D20747B400062528D /* BasePresentationController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,15 +59,15 @@
 		700FB66A1F960BCA000BB6DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		700FB6771F960BFF000BB6DA /* BaseAlertController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseAlertController.h; sourceTree = "<group>"; };
 		700FB6781F960BFF000BB6DA /* BaseAlertController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseAlertController.m; sourceTree = "<group>"; };
-		700FB6791F960BFF000BB6DA /* BasePresentationContentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BasePresentationContentController.h; sourceTree = "<group>"; };
-		700FB67A1F960BFF000BB6DA /* BasePresentationContentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BasePresentationContentController.m; sourceTree = "<group>"; };
-		700FB67B1F960BFF000BB6DA /* BasePresentationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BasePresentationController.h; sourceTree = "<group>"; };
-		700FB67C1F960BFF000BB6DA /* BasePresentationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BasePresentationController.m; sourceTree = "<group>"; };
 		700FB67D1F960BFF000BB6DA /* BaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		700FB67E1F960BFF000BB6DA /* BaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		700FB67F1F960CBA000BB6DA /* CustomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomView.m; sourceTree = "<group>"; };
 		700FB6801F960CBA000BB6DA /* CustomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomView.h; sourceTree = "<group>"; };
 		700FB6811F960CBA000BB6DA /* CustomView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomView.xib; sourceTree = "<group>"; };
+		9F0CA79A20747B3F0062528D /* BasePresentationContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasePresentationContentController.m; sourceTree = "<group>"; };
+		9F0CA79B20747B3F0062528D /* BasePresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasePresentationController.h; sourceTree = "<group>"; };
+		9F0CA79C20747B400062528D /* BasePresentationContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasePresentationContentController.h; sourceTree = "<group>"; };
+		9F0CA79D20747B400062528D /* BasePresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasePresentationController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,12 +156,12 @@
 		700FB6761F960BFF000BB6DA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9F0CA79C20747B400062528D /* BasePresentationContentController.h */,
+				9F0CA79A20747B3F0062528D /* BasePresentationContentController.m */,
+				9F0CA79B20747B3F0062528D /* BasePresentationController.h */,
+				9F0CA79D20747B400062528D /* BasePresentationController.m */,
 				700FB6771F960BFF000BB6DA /* BaseAlertController.h */,
 				700FB6781F960BFF000BB6DA /* BaseAlertController.m */,
-				700FB6791F960BFF000BB6DA /* BasePresentationContentController.h */,
-				700FB67A1F960BFF000BB6DA /* BasePresentationContentController.m */,
-				700FB67B1F960BFF000BB6DA /* BasePresentationController.h */,
-				700FB67C1F960BFF000BB6DA /* BasePresentationController.m */,
 				700FB67D1F960BFF000BB6DA /* BaseViewController.h */,
 				700FB67E1F960BFF000BB6DA /* BaseViewController.m */,
 			);
@@ -303,12 +303,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				700FB6831F960CF7000BB6DA /* BaseAlertController.m in Sources */,
-				700FB6841F960CF7000BB6DA /* BasePresentationContentController.m in Sources */,
-				700FB6851F960CF7000BB6DA /* BasePresentationController.m in Sources */,
 				700FB6861F960CF7000BB6DA /* BaseViewController.m in Sources */,
 				700FB6491F960BCA000BB6DA /* ViewController.m in Sources */,
 				700FB6821F960CBA000BB6DA /* CustomView.m in Sources */,
+				9F0CA79F20747B400062528D /* BasePresentationController.m in Sources */,
 				700FB6541F960BCA000BB6DA /* main.m in Sources */,
+				9F0CA79E20747B400062528D /* BasePresentationContentController.m in Sources */,
 				700FB6461F960BCA000BB6DA /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -13,11 +13,30 @@ typedef NS_ENUM(NSInteger, PresentationStyle) {
     PresentationStyleAlert
 };
 
-// 弹窗视图内容控制器
+@protocol BasePresentationContentControllerProtocol <NSObject>
+
+- (BOOL)alertPresentationContentControllerHasTapDismiss;
+- (PresentationStyle)alertPresentationContentControllerStyle;
+- (NSTimeInterval)alertPresentationContentControllerTransitionDuration;
+- (CGFloat)alertPresentationContentControllerVisualBgAlpha;
+
+
+@required
+- (UIView *_Nonnull)alertPresentationContentControllerContentView;
+
+@end
+
+// 弹窗视图内容控制器, 自动获取 alertView 的大小，alertView 内部要设置好约束
 @interface BasePresentationContentController : UIViewController
+<
+    BasePresentationContentControllerProtocol
+>
 
 @property (nonatomic, assign, readonly) BOOL isPresenting;
 
-@property (nonatomic, assign) PresentationStyle style; // 默认 Action Sheet
+// 被presented的viewcontroller是没有navicontroller的；weak reference
+@property (nonatomic, weak, nullable) UINavigationController *referenceNavi;
+
+
 
 @end

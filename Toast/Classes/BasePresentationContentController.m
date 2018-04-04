@@ -24,6 +24,11 @@
 /** 弹窗内容视图 */
 @property (nonatomic, strong) UIView *alertCustomView;
 
+// 是否点击空白区域隐藏, 默认YES
+@property (nonatomic, assign) BOOL isTapDismiss;
+
+@property (nonatomic, assign) PresentationStyle style; // 默认 Action Sheet
+
 @end
 
 @implementation BasePresentationContentController
@@ -38,7 +43,7 @@
 - (void)configInit {
     self.modalPresentationStyle = UIModalPresentationCustom;
     self.transitioningDelegate = self; // UIViewControllerTransitioningDelegate
-    self.view.backgroundColor = [UIColor redColor];
+    self.isTapDismiss = YES;
 }
 
 - (void)viewDidLoad {
@@ -50,6 +55,7 @@
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source {
     
     BasePresentationController *ctrl = [[BasePresentationController alloc]initWithPresentedViewController:presented presentingViewController:presenting];
+    ctrl.isTapDismiss = self.isTapDismiss;
     
     CGFloat windowH = [UIScreen mainScreen].bounds.size.height;
     CGFloat windowW = [UIScreen mainScreen].bounds.size.width;
@@ -67,7 +73,8 @@
             break;
         case PresentationStyleActionSheet:
         {
-            ctrl.frameOfPresentedView = CGRectMake(0, windowH - height, windowW, windowW / width * height);
+//            self.alertCustomView.width = windowH;
+            ctrl.frameOfPresentedView = CGRectMake(0, windowH - height, windowW, height);
         }
             break;
         default:
@@ -134,25 +141,85 @@
     }
 }
 
+//// override system method
+//- (UINavigationController *)navigationController {
+//
+//    if (self.referenceNavi) {
+//        return self.referenceNavi;
+//    }
+//
+//    UINavigationController *navi = [super navigationController];
+//    if (navi) {
+//        return navi;
+//    }
+//
+//    UIViewController *presentingVC = self.presentingViewController;
+//    if ([presentingVC isKindOfClass:[UINavigationController class]]) {
+//        return (UINavigationController *)presentingVC;
+//    }
+//
+//    if ([presentingVC isKindOfClass:[UITabBarController class]]) {
+//
+//        UITabBarController *tabbarVC = (UITabBarController *)[UIViewController getCurrentRootViewController];
+//        UIViewController *selectedVC = tabbarVC.selectedViewController;
+//
+//        if ([selectedVC isKindOfClass:[UINavigationController class]]) {
+//            return (UINavigationController *)selectedVC;
+//        }
+//    }
+//
+//    return nil;
+//}
+
 #pragma mark - 多种弹出动画
 - (void)alertAnimatePresentationTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+//    UIViewController *presentedVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+//    UIView *presentedView   =   presentedVC.view;
+//    UIView *containerView   =   [transitionContext containerView];
+//    [containerView addSubview:presentedView];
+//    containerView.userInteractionEnabled = YES;
+//    CGRect frame    =   [transitionContext finalFrameForViewController:presentedVC];
+//    presentedView.frame = frame;
+//    CGFloat duration = [self transitionDuration:transitionContext];
+//
+//    presentedView.alpha = 0;
+//    presentedView.transform = CGAffineTransformMakeScale(.8, .8);
+//
+//    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveLinear animations:^{
+//        presentedView.alpha = 1;
+//        presentedView.transform = CGAffineTransformIdentity;
+//    } completion:^(BOOL finished) {
+//        [transitionContext completeTransition:YES];
+//    }];
+    
     UIViewController *presentedVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    UIView *presentedView   =   presentedVC.view;
-    UIView *containerView   =   [transitionContext containerView];
-    [containerView addSubview:presentedView];
+    UIView * presentedView        = presentedVC.view;
+    //    presentedView.alpha = 0; // 起始为透明，淡入
+    
+    UIView *containerView = [transitionContext containerView];
     containerView.userInteractionEnabled = YES;
-    CGRect frame    =   [transitionContext finalFrameForViewController:presentedVC];
+    
+    CGRect frame = [transitionContext finalFrameForViewController:presentedVC];
+    // 中心对齐
+    frame.origin.y = (CGRectGetHeight(containerView.frame) - CGRectGetHeight(frame))/2;
     presentedView.frame = frame;
+    //
+    presentedView.transform = CGAffineTransformMakeScale(.8, .8);
+    
+    [containerView addSubview:presentedView];
+    
     CGFloat duration = [self transitionDuration:transitionContext];
     
-    presentedView.alpha = 0;
-    presentedView.transform = CGAffineTransformMakeScale(.8, .8);
-
-    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveLinear animations:^{
-        presentedView.alpha = 1;
+    [UIView animateWithDuration:duration animations:^{
+        //        presentedView.alpha = 1;
+    }];
+    
+    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.5f initialSpringVelocity:25.0f options:UIViewAnimationOptionCurveLinear animations:^{
+        
         presentedView.transform = CGAffineTransformIdentity;
+        
     } completion:^(BOOL finished) {
-        [transitionContext completeTransition:YES];
+        [transitionContext completeTransition:finished];
     }];
 }
 
@@ -167,8 +234,8 @@
     CGFloat duration = [self transitionDuration:transitionContext];
     
     CGFloat height = presentedView.frame.size.height;
-    CGFloat width = presentedView.frame.size.width;
-    presentedView.frame = CGRectMake(0, CGRectGetMaxY(frame) + height, width, height);
+//    CGFloat width = presentedView.frame.size.width;
+    presentedView.frame = CGRectMake(0, CGRectGetMaxY(frame) + height, [UIScreen mainScreen].bounds.size.width, height);
     
     [UIView animateWithDuration:duration animations:^{
         presentedView.frame = frame;
@@ -179,13 +246,30 @@
 
 #pragma mark - 多种弹出动画
 - (void)alertAnimateDismissTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
-    UIViewController * presentedVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    UIView *presentedView  = presentedVC.view;
-    CGFloat duration = [self transitionDuration:transitionContext];
+//    UIViewController * presentedVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+//    UIView *presentedView  = presentedVC.view;
+//    CGFloat duration = [self transitionDuration:transitionContext];
+//    
+//    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveLinear animations:^{
+//        presentedView.alpha = 0;
+//        presentedView.transform = CGAffineTransformMakeScale(.8, .8);
+//    } completion:^(BOOL finished) {
+//        [transitionContext completeTransition:finished];
+//    }];
     
-    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1 options:UIViewAnimationOptionCurveLinear animations:^{
+    UIViewController * presentedVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIView * presentedView         = presentedVC.view;
+    
+    UIView *containerView = [transitionContext containerView];
+    
+    CGRect frame = presentedView.frame;
+    frame.origin.y = CGRectGetHeight(containerView.frame);
+    
+    CGFloat duration = [self transitionDuration:transitionContext];
+    [UIView animateWithDuration:duration animations:^{
         presentedView.alpha = 0;
         presentedView.transform = CGAffineTransformMakeScale(.8, .8);
+        
     } completion:^(BOOL finished) {
         [transitionContext completeTransition:finished];
     }];
@@ -200,27 +284,69 @@
     [UIView animateWithDuration:duration animations:^{
         CGFloat height = presentedView.frame.size.height;
         CGFloat width = presentedView.frame.size.width;
-        presentedView.frame = CGRectMake(0, CGRectGetMaxY(frame) + height, width, height);
+        presentedView.frame = CGRectMake(0, CGRectGetMaxY(frame) + height, [UIScreen mainScreen].bounds.size.width, height);
     } completion:^(BOOL finished) {
         [transitionContext completeTransition:finished];
     }];
 }
 
+#pragma mark - AlertPresentationContentControllerProtocol
+- (UIView *)alertPresentationContentControllerContentView {
+    return [UIView new];
+}
+
 #pragma mark - 重写方法
 - (UIView *)alertCustomView {
     if (!_alertCustomView) {
-        _alertCustomView = [self contentAlertView];
+        if ([self respondsToSelector:@selector(alertPresentationContentControllerContentView)]) {
+            _alertCustomView = [self alertPresentationContentControllerContentView];
+        }
         [self.view addSubview:_alertCustomView];
         CGSize size = [_alertCustomView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-        self.alertCustomView.frame = CGRectMake(0, 0, size.width, size.height);
-        self.alertCustomView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin |
+        switch (self.style) {
+            case PresentationStyleAlert:
+            {
+                _alertCustomView.frame = CGRectMake(0, 0, size.width, size.height);
+            }
+                break;
+            case PresentationStyleActionSheet:
+            {
+                _alertCustomView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, size.height);
+            }
+                break;
+        }
+        _alertCustomView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin |
         UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     }
     return _alertCustomView;
 }
 
-- (UIView *)contentAlertView {
-    return [UIView new];
+- (BOOL)isTapDismiss {
+    if ([self respondsToSelector:@selector(alertPresentationContentControllerHasTapDismiss)]) {
+        _isTapDismiss = [self alertPresentationContentControllerHasTapDismiss];
+    }
+    return _isTapDismiss;
+}
+
+- (PresentationStyle)style {
+    if ([self respondsToSelector:@selector(alertPresentationContentControllerStyle)]) {
+        _style = [self alertPresentationContentControllerStyle];
+    }
+    return _style;
+}
+
+- (CGFloat)visualBgAlpha {
+    if ([self respondsToSelector:@selector(alertPresentationContentControllerVisualBgAlpha)]) {
+        _visualBgAlpha = [self alertPresentationContentControllerVisualBgAlpha];
+    }
+    return _visualBgAlpha;
+}
+
+- (NSTimeInterval)transitionDuration {
+    if ([self respondsToSelector:@selector(alertPresentationContentControllerVisualBgAlpha)]) {
+        _transitionDuration = [self alertPresentationContentControllerVisualBgAlpha];
+    }
+    return _transitionDuration;
 }
 
 - (void)didReceiveMemoryWarning {
